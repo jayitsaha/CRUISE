@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice</title>
+</head>
+<body>
+    <h1>Invoice</h1>
+    <p>Invoice ID: {{ invoice.invoice_id }}</p>
+    <p>Date: {{ invoice.date }}</p>
+    <p>Due Date: {{ invoice.due_date }}</p>
+    <p>Room Cost: ${{ invoice.room_cost }}</p>
+    <p>Package Cost: ${{ invoice.package_cost }}</p>
+    <p>Total Amount: ${{ invoice.total_amount }}</p>
+    <a href="{% url 'add_payment' invoice.invoice_id %}">Make Payment</a>
+</body>
+</html>

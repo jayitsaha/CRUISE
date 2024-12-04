@@ -1,0 +1,370 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Add Passengers</title>
+</head>
+<body>
+    <h1>Add Passengers</h1>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <h2>Passenger Details</h2>
+        {{ passenger_formset.management_form }}
+        {% for form in passenger_formset %}
+            <div>
+                <h3>Passenger {{ forloop.counter }}</h3>
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+        
+        <h2>Preferences</h2>
+        <div>
+            <label for="stateroom">Stateroom Type:</label>
+            {{ preference_form.stateroom }}
+        </div>
+        <div>
+            <label for="side">Side Name:</label>
+            {{ preference_form.side }}
+        </div>
+        <div>
+            <label for="packages">Packages:</label>
+            {{ preference_form.packages }}
+        </div>
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> -->
+
+
+{% load form_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Passengers</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* General Styles */
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container-fluid {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        h1, h2 {
+            color: #343a40;
+        }
+
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            background-color: #ffffff;
+            margin-bottom: 1.5rem;
+        }
+        .card-header {
+            background-color: #ffffff;
+            border-bottom: none;
+            padding: 1rem 1.25rem;
+        }
+        .card-header h2 {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            margin: 0;
+            color: #495057;
+        }
+        .card-header h2 .bi {
+            margin-right: 0.5rem;
+            color: #0d6efd;
+        }
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        /* Table Styles */
+        .table thead {
+            background-color: #e9ecef;
+        }
+        .table thead th {
+            color: #495057;
+            font-weight: 600;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .table tbody td {
+            vertical-align: middle;
+            padding: 0.75rem;
+        }
+        .table-responsive {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 0.5rem;
+            background-color: #ffffff;
+        }
+        .table {
+            width: 100%;
+        }
+
+        /* Form Controls */
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        .form-select, .form-control {
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            padding: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: none;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+        .btn-success {
+            background-color: #198754;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-success:hover {
+            background-color: #157347;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn-danger:hover {
+            background-color: #bb2d3b;
+        }
+
+        /* Add/Remove Passenger Buttons */
+        .add-passenger-btn, .remove-passenger-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        .add-passenger-btn .bi, .remove-passenger-btn .bi {
+            margin-right: 0.25rem;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 576px) {
+            .card-header h2 {
+                font-size: 1rem;
+            }
+            .form-label {
+                font-size: 0.875rem;
+            }
+            .submit-btn {
+                width: 100%;
+            }
+        }
+
+        /* Remove Padding Around Table */
+        .table-responsive {
+            padding: 0;
+            margin: 0;
+        }
+        .table {
+            margin-bottom: 0;
+        }
+
+        /* Hidden Template Row */
+        #empty-passenger-form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid my-5 px-3">
+        <!-- Page Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-5">Add Passengers</h1>
+            <p class="text-muted">Fill in the passenger details and set your preferences below.</p>
+        </div>
+
+        <form method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+
+            <!-- Passenger Details Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2><i class="bi bi-people-fill"></i> Passenger Details</h2>
+                </div>
+                <div class="card-body">
+                    {{ passenger_formset.management_form }}
+                    <div class="table-responsive">
+                        <table id="passengers-table" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    {% for field in passenger_formset.empty_form.visible_fields %}
+                                        <th>{{ field.label }}</th>
+                                    {% endfor %}
+                                    <th style="width: 80px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for form in passenger_formset %}
+                                    <tr>
+                                        {% for field in form.visible_fields %}
+                                            <td>
+                                                {% if field.errors %}
+                                                    <div class="text-danger mb-1">
+                                                        {{ field.errors }}
+                                                    </div>
+                                                {% endif %}
+                                                {{ field|add_class:"form-control form-control-sm" }}
+                                            </td>
+                                        {% endfor %}
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-danger btn-sm remove-passenger-btn" title="Remove Passenger">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-success btn-sm mt-3 add-passenger-btn">
+                        <i class="bi bi-plus-circle-fill"></i> Add Passenger
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preferences Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2><i class="bi bi-gear-fill"></i> Preferences</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- Stateroom Type -->
+                        <div class="col-md-4">
+                            <label for="{{ preference_form.stateroom.id_for_label }}" class="form-label">
+                                <i class="bi bi-house-door-fill me-1"></i> Stateroom Type:
+                            </label>
+                            {{ preference_form.stateroom|add_class:"form-select" }}
+                        </div>
+                        <!-- Side Name -->
+                        <div class="col-md-4">
+                            <label for="{{ preference_form.side.id_for_label }}" class="form-label">
+                                <i class="bi bi-map-fill me-1"></i> Side Name:
+                            </label>
+                            {{ preference_form.side|add_class:"form-select" }}
+                        </div>
+                        <!-- Packages -->
+                        <div class="col-md-4">
+                            <label for="{{ preference_form.packages.id_for_label }}" class="form-label">
+                                <i class="bi bi-gift-fill me-1"></i> Packages:
+                            </label>
+                            {{ preference_form.packages|add_class:"form-select" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary submit-btn">
+                    <i class="bi bi-send-fill me-2"></i> Submit
+                </button>
+            </div>
+        </form>
+
+        <!-- Hidden Template for New Passenger Form -->
+        <table style="display: none;">
+            <tbody>
+                <tr id="empty-passenger-form">
+                    {% for field in passenger_formset.empty_form.visible_fields %}
+                        <td>
+                            {{ field|add_class:"form-control form-control-sm" }}
+                        </td>
+                    {% endfor %}
+                    <td class="text-center">
+                        <button type="button" class="btn btn-danger btn-sm remove-passenger-btn" title="Remove Passenger">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (for dynamic formset handling) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JavaScript for Dynamic Formsets -->
+    <script>
+        $(document).ready(function(){
+            // Function to add a new passenger form
+            $('.add-passenger-btn').click(function(){
+                var formIdx = parseInt($('#id_passenger_formset-TOTAL_FORMS').val());
+                var emptyFormHtml = $('#empty-passenger-form').html();
+                var newFormHtml = emptyFormHtml.replace(/__prefix__/g, formIdx);
+                // Create a new row with the replaced HTML
+                var $newRow = $('<tr>').html(newFormHtml);
+                // Append the new row to the table body
+                $('#passengers-table tbody').append($newRow);
+                // Update TOTAL_FORMS
+                $('#id_passenger_formset-TOTAL_FORMS').val(formIdx + 1);
+            });
+
+            // Function to remove a passenger form
+            $('#passengers-table tbody').on('click', '.remove-passenger-btn', function(){
+                $(this).closest('tr').remove();
+                // Optionally, update TOTAL_FORMS here if needed
+                var formCount = $('#passengers-table tbody tr').length;
+                $('#id_passenger_formset-TOTAL_FORMS').val(formCount);
+            });
+
+            // Bootstrap validation
+            (function () {
+                'use strict'
+                var forms = document.querySelectorAll('.needs-validation')
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })()
+        });
+    </script>
+</body>
+</html>
+
