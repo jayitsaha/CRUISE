@@ -18,7 +18,7 @@ class Passenger(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'ssh_passenger'
+        db_table = 'ssh_passenger_1'
 
 
 class Stateroom(models.Model):
@@ -27,7 +27,7 @@ class Stateroom(models.Model):
     size = models.IntegerField()
 
     class Meta:
-        db_table = 'ssh_stateroom'
+        db_table = 'ssh_stateroom_1'
 
     def __str__(self):
         return self.type  # Display stateroom type in dropdowns
@@ -38,7 +38,7 @@ class Side(models.Model):
     side_name = models.CharField(max_length=30)
 
     class Meta:
-        db_table = 'ssh_sides'
+        db_table = 'ssh_sides_1'
 
     def __str__(self):
         return self.side_name  # Display side name in dropdowns
@@ -50,7 +50,7 @@ class Package(models.Model):
     cost = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
-        db_table = 'ssh_packages'
+        db_table = 'ssh_packages_1'
 
     def __str__(self):
         return self.package_name  # Display package name in dropdowns
@@ -67,7 +67,7 @@ class Invoice(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'ssh_invoice'
+        db_table = 'ssh_invoice_1'
 
 
 class Payment(models.Model):
@@ -79,7 +79,7 @@ class Payment(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'ssh_payment'
+        db_table = 'ssh_payment_1'
 
 
 # from django.db import models

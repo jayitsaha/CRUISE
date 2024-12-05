@@ -310,26 +310,20 @@
     <div class="d-flex justify-content-center">
       <!-- Tab Navigation -->
       <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
+
+
+        {% for trip in trips %}
         <li class="nav-item">
-          <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#features-tab-1">
-            <h4>Caribbean Cruise</h4>
+          <a class="nav-link {% if forloop.first %}active{%endif%}" data-bs-toggle="tab" data-bs-target="#features-tab-{{trip.trip_id}}">
+            <h4>{{trip.trip_id}}</h4>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
-            <h4>Bermuda Cruise</h4>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
-            <h4>Alaska Cruise</h4>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-4">
-            <h4>Hawaiian Island Cruise</h4>
-          </a>
-        </li>
+
+        {% endfor %}
+
+
+        
+        
       </ul>
     </div>
 
@@ -338,12 +332,13 @@
 <!-- /Tab Content -->
 <!-- Tab Content -->
 <div class="tab-content mt-4">
-  
-  <!-- Caribbean Cruise -->
-  <div class="tab-pane fade show active" id="features-tab-1">
+{% for trip in trips %} 
+  <div class="tab-pane fade show {% if forloop.first %}active{%endif%}" id="features-tab-{{trip.trip_id}}">
     <div class="row">
       <div class="col-lg-6">
-        <h3>Caribbean Cruise</h3>
+
+
+        <h3>{{trip.trip_id}}</h3>
         <p class="fst-italic">Set sail to the tropical paradise of the Caribbean, where white sandy beaches, turquoise waters, and vibrant cultures await.</p>
         <ul>
           <li><i class="bi bi-check2-all"></i> Explore stunning islands like Jamaica, Cozumel, and the Bahamas.</li>
@@ -363,77 +358,10 @@
     </div>
   </div>
 
-  <!-- Bermuda Cruise -->
-  <div class="tab-pane fade" id="features-tab-2">
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Bermuda Cruise</h3>
-        <p class="fst-italic">Discover Bermuda’s pink sand beaches, crystal-clear waters, and charming colonial architecture. A perfect getaway just off the East Coast.</p>
-        <ul>
-          <li><i class="bi bi-check2-all"></i> Relax on the iconic pink sand beaches of Bermuda.</li>
-          <li><i class="bi bi-check2-all"></i> Explore Hamilton, St. George’s, and the Royal Naval Dockyard.</li>
-          <li><i class="bi bi-check2-all"></i> Enjoy world-class snorkeling, diving, and historical landmarks.</li>
-        </ul>
-      </div>
-      <div class="col-lg-6 text-center">
-        <img src="/static/assets/cruise/img/R1.jpg" alt="Bermuda Cruise" class="img-fluid" style="max-width: 80%; height: auto;">
-      </div>
-    </div>
-    <!-- View More Button -->
-    <div class="d-flex justify-content-start mt-3">
-      <a href="#pricing" class="btn" style="background-color: #0d83fd; color: white; padding: 10px 20px; border-radius: 5px; font-weight: 600; text-transform: uppercase; transition: background-color 0.3s;">
-        View More
-      </a>
-    </div>
-  </div>
+  {% endfor %}
 
-  <!-- Alaska Cruise -->
-  <div class="tab-pane fade" id="features-tab-3">
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Alaska Cruise</h3>
-        <p class="fst-italic">Embark on an adventure through Alaska’s wilderness. Witness glaciers, fjords, and wildlife while exploring Alaskan towns.</p>
-        <ul>
-          <li><i class="bi bi-check2-all"></i> See majestic glaciers and dramatic fjords.</li>
-          <li><i class="bi bi-check2-all"></i> Spot whales, bears, and eagles in their natural habitat.</li>
-          <li><i class="bi bi-check2-all"></i> Explore charming Alaskan towns like Juneau and Ketchikan.</li>
-        </ul>
-      </div>
-      <div class="col-lg-6 text-center">
-        <img src="/static/assets/cruise/img/R49.jpg" alt="Alaska Cruise" class="img-fluid" style="max-width: 80%; height: auto;">
-      </div>
-    </div>
-    <!-- View More Button -->
-    <div class="d-flex justify-content-start mt-3">
-      <a href="#pricing" class="btn" style="background-color: #0d83fd; color: white; padding: 10px 20px; border-radius: 5px; font-weight: 600; text-transform: uppercase; transition: background-color 0.3s;">
-        View More
-      </a>
-    </div>
-  </div>
 
-  <!-- Hawaiian Island Cruise -->
-  <div class="tab-pane fade" id="features-tab-4">
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Hawaiian Island Cruise</h3>
-        <p class="fst-italic">Sail to the enchanting Hawaiian Islands, where volcanic landscapes, lush rainforests, and beautiful beaches await.</p>
-        <ul>
-          <li><i class="bi bi-check2-all"></i> Visit Oahu, Maui, Kauai, and the Big Island.</li>
-          <li><i class="bi bi-check2-all"></i> Hike through volcanic craters and pristine beaches.</li>
-          <li><i class="bi bi-check2-all"></i> Immerse in Hawaiian culture, history, and traditions.</li>
-        </ul>
-      </div>
-      <div class="col-lg-6 text-center">
-        <img src="/static/assets/cruise/img/H.jpg" alt="Hawaiian Island Cruise" class="img-fluid" style="max-width: 80%; height: auto;">
-      </div>
-    </div>
-    <!-- View More Button -->
-    <div class="d-flex justify-content-start mt-3">
-      <a href="#pricing" class="btn" style="background-color: #0d83fd; color: white; padding: 10px 20px; border-radius: 5px; font-weight: 600; text-transform: uppercase; transition: background-color 0.3s;">
-        View More
-      </a>
-    </div>
-  </div>
+  
 
 </div>
 <!-- /Tab Content -->
@@ -746,13 +674,15 @@
               <h3 style="color: blue;">Luxurious Staterooms</h3>
               <p>Choose from a variety of staterooms to suit your needs, each designed for comfort and luxury.</p>
               <ul>
-                <li><strong style="color: blue;">The Haven Suite</strong>: 1000 SQFT, 6 Beds, 3 Bathrooms, 2 Balconies</li>
-                <li><strong style="color: blue;">Club Balcony Suite</strong>: 800 SQFT, 4 Beds, 2 Bathrooms, 2 Balconies</li>
+                {% for stateroom in staterooms %}
+                <li><strong style="color: blue;">{{stateroom.stateroom_id}}</strong>: 1000 SQFT, 6 Beds, 3 Bathrooms, 2 Balconies</li>
+                {% endfor %}
+                <!-- <li><strong style="color: blue;">Club Balcony Suite</strong>: 800 SQFT, 4 Beds, 2 Bathrooms, 2 Balconies</li>
                 <li><strong style="color: blue;">Family Large Balcony</strong>: 600 SQFT, 4 Beds, 2 Bathrooms, 1 Balcony</li>
                 <li><strong style="color: blue;">Family Balcony</strong>: 400 SQFT, 4 Beds, 1.5 Bathrooms, 1 Balcony</li>
                 <li><strong style="color: blue;">Oceanview Window</strong>: 300 SQFT, 2 Beds, 1 Bathroom, No Balcony</li>
                 <li><strong style="color: blue;">Inside Stateroom</strong>: 200 SQFT, 2 Beds, 1 Bathroom, No Balcony</li>
-                <li><strong style="color: blue;">Studio Stateroom</strong>: 150 SQFT, 1 Bed, 1 Bathroom, No Balcony</li>
+                <li><strong style="color: blue;">Studio Stateroom</strong>: 150 SQFT, 1 Bed, 1 Bathroom, No Balcony</li> -->
               </ul>
               <a href="stateroom-details.html" class="read-more">View Stateroom Details <i class="bi bi-arrow-right"></i></a>
             </div>
@@ -769,11 +699,13 @@
               <h3 style="color: blue;">Exclusive Packages</h3>
               <p>Enhance your experience with our carefully curated packages that cater to every preference.</p>
               <ul>
-                <li><strong style="color: blue;">Water and Non-Alcoholic Beverages</strong>: $40 per person per night</li>
-                <li><strong style="color: blue;">Unlimited Bar</strong>: $80 per person per night (21+ only)</li>
+                {% for package in packages %}
+                <li><strong style="color: blue;">{{package.package_id}}</strong>: $40 per person per night</li>
+                {% endfor %}
+                <!-- <li><strong style="color: blue;">Unlimited Bar</strong>: $80 per person per night (21+ only)</li>
                 <li><strong style="color: blue;">Internet Package</strong>: 200 minutes, 100 GB for $150 per person for the entire trip</li>
                 <li><strong style="color: blue;">Unlimited Internet</strong>: $250 per person for the entire trip</li>
-                <li><strong style="color: blue;">Specialty Dining</strong>: $60 per person per night, offering Italian, Mexican, Japanese, Chinese, and more</li>
+                <li><strong style="color: blue;">Specialty Dining</strong>: $60 per person per night, offering Italian, Mexican, Japanese, Chinese, and more</li> -->
               </ul>
               <a href="package-details.html" class="read-more">View Package Details <i class="bi bi-arrow-right"></i></a>
             </div>
@@ -790,8 +722,11 @@
               <h3 style="color: blue;">Entertainment and Activities</h3>
               <p>Explore a variety of entertainment options and activities available onboard to keep you engaged and active throughout your trip.</p>
               <ul>
-                <li><strong style="color: blue;">Theaters</strong>: 2 units, located on floors 8 and 10</li>
-                <li><strong style="color: blue;">Casino</strong>: 1 unit, located on floor 7</li>
+
+                {% for ent_act in ent_acts%}
+                <li><strong style="color: blue;">{{ent_act.ent_id}}</strong>: 2 units, located on floors 8 and 10</li>
+                {%endfor%}
+                <!-- <li><strong style="color: blue;">Casino</strong>: 1 unit, located on floor 7</li>
                 <li><strong style="color: blue;">Library</strong>: 2 units, located on floors 3 and 4</li>
                 <li><strong style="color: blue;">Children's Play Area</strong>: 1 unit, located on floor 3</li>
                 <li><strong style="color: blue;">Gym</strong>: 1 unit, located on floor 5</li>
@@ -802,7 +737,7 @@
                 <li><strong style="color: blue;">Sauna Room</strong>: 1 unit, located on floor 9</li>
                 <li><strong style="color: blue;">Yoga Room</strong>: 1 unit, located on floor 5</li>
                 <li><strong style="color: blue;">Night Clubs</strong>: 2 units, located on floors 8 and 11</li>
-                <li><strong style="color: blue;">Tennis Court</strong>: 1 unit, located on floor 11</li>
+                <li><strong style="color: blue;">Tennis Court</strong>: 1 unit, located on floor 11</li> -->
               </ul>
               <a href="activities.html" class="read-more">Explore Activities <i class="bi bi-arrow-right"></i></a>
             </div>
